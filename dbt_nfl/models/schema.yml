@@ -2,11 +2,58 @@
 version: 2
 
 models:
-  - name: my_first_dbt_model
-    description: "A starter dbt model"
+  - name: schedule
+    description: "Parsed/normalized json matchup info from landing.schedule"
     columns:
-      - name: id
+      - name: game_id
         description: "The primary key for this table"
         data_tests:
           - unique
           - not_null
+
+  - name: venue
+    description: "Cleaned game venue info from landing.schedule"
+    columns:
+      - name: venue_id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+
+  - name: broadcast
+    description: "Cleaned game broadcast info from landing.schedule"
+    columns:
+      - name: game_id
+        description: "The primary key for this table"
+        data_tests:
+          - not_null
+
+  - name: playtype
+    description: "Cleaned game broadcast info from landing.plays"
+    columns:
+      - name: playtype_id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+
+  - name: plays
+    description: "Cleaned gameplay info from landing.plays"
+    columns:
+      - name: play_id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+
+  - name: teams
+    description: "Cleaned team details from landing.teams"
+    columns:
+      - name: team_id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+
+  - name: summary_stats
+    description: "Summary stats from landing.teams"
