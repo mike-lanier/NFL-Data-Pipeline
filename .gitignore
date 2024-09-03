@@ -1,2 +1,3 @@
 /logs
 .env
+src/__pycache__/postgres_driver.cpython-310.pyc
