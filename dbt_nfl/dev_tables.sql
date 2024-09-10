@@ -22,6 +22,7 @@ create table landing.scoring_plays (
 create table landing.teams (
     id SERIAL PRIMARY KEY,
     team_json JSONB,
+    filename VARCHAR(30),
     etl_ts TIMESTAMP
 );
 

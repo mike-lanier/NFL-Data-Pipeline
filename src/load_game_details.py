@@ -24,6 +24,21 @@ def insert_game_data(driver, games, filename, etl_ts):
         driver.conn.rollback()
 
 
+def insert_team_data(driver, teams, filename, etl_ts):
+    try:
+        insert_statement = """
+            INSERT INTO landing.teams (team_json, filename, etl_ts)
+            VALUES (%s, %s, %s)
+        """
+        for team in teams:
+            team_json = json.dumps(team)
+            driver.execute(insert_statement, (team_json, filename, etl_ts))
+        driver.commit()
+    except Exception as e:
+        print("Error inserting events:", e)
+        driver.conn.rollback()
+
+
 def insert_scoring_play_data(driver, scores, filename, etl_ts):
     try:
         insert_statement = """
@@ -55,8 +70,17 @@ def load_game_details_to_database():
                     data = AWSOps.getJsonFileBody(s3, bucket, key)
 
                     filename = key.split('/', 1)[1]
+                    teams = data['boxscore']['teams']
                     plays = data['drives']['previous']
                     scores = data['scoringPlays']
+
+                    if teams:
+                        ts = datetime.now(eastern_tz)
+                        etl_ts = ts.isoformat()
+                        insert_team_data(driver, teams, filename, etl_ts)
+                        print(f"Teams in file [{key}] uploaded successfully")
+                    else:
+                        print(f"No teams found in [{key}]")
 
                     if plays:
                         ts = datetime.now(eastern_tz)
