@@ -7,25 +7,25 @@
 
 with tmp as (
     select
-    play_json->>'id' as play_id
-    , play_json->>'sequenceNumber' as seq_num
-    , play_json->>'scoringPlay' as scoring_play
-    , play_json->'period'->>'number' as quarter_id
-    , play_json->'clock'->>'displayValue' as start_clock
-    , play_json->'start'->'team'->>'id' as poss_team_id
-    , play_json->'start'->>'down' as down
-    , play_json->'start'->>'distance' as distance
-    , play_json->'start'->>'yardLine' as yardline
-    , play_json->'type'->>'id' as playtype_id
-    , play_json->>'text' as play_detail
-    , play_json->>'statYardage' as yards_gained
+    plays_json->>'id' as play_id
+    , plays_json->>'sequenceNumber' as seq_num
+    , plays_json->>'scoringPlay' as scoring_play
+    , plays_json->'period'->>'number' as quarter_id
+    , plays_json->'clock'->>'displayValue' as start_clock
+    , plays_json->'start'->'team'->>'id' as poss_team_id
+    , plays_json->'start'->>'down' as down
+    , plays_json->'start'->>'distance' as distance
+    , plays_json->'start'->>'yardLine' as yardline
+    , plays_json->'type'->>'id' as playtype_id
+    , plays_json->>'text' as play_detail
+    , plays_json->>'statYardage' as yards_gained
     , split_part(filename, '.json', 1) as game_id
     , etl_ts
     from
     landing.plays
 )
 
-select
+select distinct
 play_id::bigint
 , seq_num::int
 , scoring_play

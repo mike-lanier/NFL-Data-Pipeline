@@ -6,18 +6,18 @@
 
 with tmp as (
     select
-    play_json->'type'->>'id' as playtype_id
-    , play_json->'type'->>'abbreviation' as playtype_abbrv
-    , play_json->'type'->>'text' as playtype_detail
+    plays_json->'type'->>'id' as playtype_id
+    , plays_json->'type'->>'abbreviation' as playtype_abbrv
+    , plays_json->'type'->>'text' as playtype_detail
     from
     landing.plays
 
     union
 
     select
-    play_json->'pointAfterAttempt'->>'id' as playtype_id
-    , play_json->'pointAfterAttempt'->>'abbreviation' as playtype_abbrv
-    , play_json->'pointAfterAttempt'->>'text' as playtype_detail
+    plays_json->'pointAfterAttempt'->>'id' as playtype_id
+    , plays_json->'pointAfterAttempt'->>'abbreviation' as playtype_abbrv
+    , plays_json->'pointAfterAttempt'->>'text' as playtype_detail
     from
     landing.plays
 )

@@ -19,7 +19,7 @@ with tmp as (
     landing.scoring_plays
 )
 
-select
+select distinct
 play_id::bigint
 , game_id::int
 , quarter_id
