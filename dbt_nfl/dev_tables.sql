@@ -52,3 +52,10 @@ create table landing.conferences (
 insert into landing.conferences values
 (1, 'American Football Conference', 'American', 'AFC'),
 (2, 'National Football Conference', 'National', 'NFC');
+
+create table landing.player_stats (
+    id SERIAL PRIMARY KEY,
+    stats_json JSONB,
+    filename VARCHAR(30),
+    etl_ts TIMESTAMP
+);

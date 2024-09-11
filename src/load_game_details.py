@@ -54,6 +54,21 @@ def insert_scoring_play_data(driver, scores, filename, etl_ts):
         driver.conn.rollback()
 
 
+def insert_player_stats_data(driver, stats, filename, etl_ts):
+    try:
+        insert_statement = """
+            INSERT INTO landing.player_stats (stats_json, filename, etl_ts)
+            VALUES (%s, %s, %s)
+        """
+        for stat in stats:
+            stat_json = json.dumps(stat)
+            driver.execute(insert_statement, (stat_json, filename, etl_ts))
+        driver.commit()
+    except Exception as e:
+        print("Error inserting events:", e)
+        driver.conn.rollback()
+
+
 def load_game_details_to_database():
     s3 = AWSOps.connectS3()
     bucket = AWSOps.getBucketName('nfl_s3_bucket')
@@ -71,6 +86,7 @@ def load_game_details_to_database():
 
                     filename = key.split('/', 1)[1]
                     teams = data['boxscore']['teams']
+                    player_stats = data['boxscore']['players']
                     plays = data['drives']['previous']
                     scores = data['scoringPlays']
 
@@ -81,6 +97,14 @@ def load_game_details_to_database():
                         print(f"Teams in file [{key}] uploaded successfully")
                     else:
                         print(f"No teams found in [{key}]")
+
+                    if player_stats:
+                        ts = datetime.now(eastern_tz)
+                        etl_ts = ts.isoformat()
+                        insert_player_stats_data(driver, player_stats, filename, etl_ts)
+                        print(f"Player stats in file [{key}] uploaded successfully")
+                    else:
+                        print(f"No stats found in [{key}]")
 
                     if plays:
                         ts = datetime.now(eastern_tz)
