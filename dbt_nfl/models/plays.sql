@@ -37,7 +37,7 @@ play_id::bigint
 , yardLine
 , playtype_id::int
 , play_detail
-, yards_gained
+, yards_gained::int
 , game_id::int
 , current_timestamp::timestamp as elt_ts
 from

@@ -22,7 +22,7 @@ with tmp as (
 select distinct
 play_id::bigint
 , game_id::int
-, quarter_id
+, quarter_id::int
 , game_clock
 , team_id::int
 , playtype_id::int

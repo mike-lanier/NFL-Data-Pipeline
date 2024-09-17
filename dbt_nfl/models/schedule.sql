@@ -7,6 +7,7 @@
 with tmp as (
 select
 sched_json->>'id' as game_id
+, sched_json->'week'->>'number' as week
 , sched_json->>'date' as game_date
 , sched_json->>'name' as matchup_full
 , sched_json->>'shortName' as matchup_abbrv
@@ -23,6 +24,7 @@ landing.schedule
 conv as (
 select
 game_id::int
+, week::int
 , game_date::timestamp as game_ts
 , matchup_full
 , matchup_abbrv
@@ -37,6 +39,7 @@ from
 tmp
 group by
 game_id
+, week::int
 , game_date::timestamp
 , matchup_full
 , matchup_abbrv
@@ -46,6 +49,7 @@ game_id
 
 select distinct
 game_id
+, week
 , game_ts::date as game_date
 , game_ts::time as game_time
 , matchup_full
