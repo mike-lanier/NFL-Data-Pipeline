@@ -28,8 +28,6 @@ playtype_id::int
 , playtype_detail
 from
 tmp
-where
-playtype_id is not null
 
 {% if is_incremental() %}
 

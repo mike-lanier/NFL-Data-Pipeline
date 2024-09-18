@@ -45,7 +45,7 @@ tmp
 
 {% if is_incremental() %}
 
-where game_id not in (select game_id from {{ this }})
+where game_id::int not in (select game_id from {{ this }})
 
 {% endif %}
 
