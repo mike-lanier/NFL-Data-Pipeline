@@ -1,6 +1,7 @@
 import psycopg2
 import os
 from dotenv import load_dotenv
+from sqlalchemy import create_engine
 
 
 class PostgresDatabaseDriver:
@@ -36,3 +37,7 @@ class PostgresDatabaseDriver:
     def close(self):
         self.cur.close()
         self.conn.close()
+
+    def create_engine(self):
+        connection_string = f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+        return create_engine(connection_string)
