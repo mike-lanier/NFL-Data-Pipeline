@@ -54,19 +54,19 @@ def insert_scoring_play_data(driver, scores, filename, etl_ts):
         driver.conn.rollback()
 
 
-def insert_player_stats_data(driver, stats, filename, etl_ts):
-    try:
-        insert_statement = """
-            INSERT INTO landing.player_stats (stats_json, filename, etl_ts)
-            VALUES (%s, %s, %s)
-        """
-        for stat in stats:
-            stat_json = json.dumps(stat)
-            driver.execute(insert_statement, (stat_json, filename, etl_ts))
-        driver.commit()
-    except Exception as e:
-        print("Error inserting events:", e)
-        driver.conn.rollback()
+# def insert_player_stats_data(driver, stats, filename, etl_ts):
+#     try:
+#         insert_statement = """
+#             INSERT INTO landing.player_stats (stats_json, filename, etl_ts)
+#             VALUES (%s, %s, %s)
+#         """
+#         for stat in stats:
+#             stat_json = json.dumps(stat)
+#             driver.execute(insert_statement, (stat_json, filename, etl_ts))
+#         driver.commit()
+#     except Exception as e:
+#         print("Error inserting events:", e)
+#         driver.conn.rollback()
 
 
 def load_game_details_to_database():
