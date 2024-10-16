@@ -98,13 +98,13 @@ def load_game_details_to_database():
                     else:
                         print(f"No teams found in [{key}]")
 
-                    if player_stats:
-                        ts = datetime.now(eastern_tz)
-                        etl_ts = ts.isoformat()
-                        insert_player_stats_data(driver, player_stats, filename, etl_ts)
-                        print(f"Player stats in file [{key}] uploaded successfully")
-                    else:
-                        print(f"No stats found in [{key}]")
+                    # if player_stats:
+                    #     ts = datetime.now(eastern_tz)
+                    #     etl_ts = ts.isoformat()
+                    #     insert_player_stats_data(driver, player_stats, filename, etl_ts)
+                    #     print(f"Player stats in file [{key}] uploaded successfully")
+                    # else:
+                    #     print(f"No stats found in [{key}]")
 
                     if plays:
                         ts = datetime.now(eastern_tz)
