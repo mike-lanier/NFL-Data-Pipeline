@@ -110,6 +110,11 @@ team_id
 , rush_yds / games_played as rush_yds_per_game
 , rec_yds / games_played as rec_yds_per_game
 , (rush_yds / games_played) + (rec_yds / games_played) as ttl
+, round(rec_tgt::decimal / games_played, 1) as targets_per_game
+, case
+    when rec_tgt = 0 then 0
+    else round(receptions::decimal / rec_tgt, 1)
+  end as catch_pct
 , rec_tgt as total_targets
 , rush_att as total_rush_att
 from
@@ -156,6 +161,8 @@ p.team_id
 , p.player_name
 , p.pass_yds_per_game
 , p.rush_yds_per_game
+, p.targets_per_game
+, p.catch_pct
 , p.rec_yds_per_game
 , round((p.total_rush_att::decimal / t.rush_att), 2) as rush_util
 , round((p.total_targets::decimal / t.pass_att), 2) as pass_util
